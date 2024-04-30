@@ -16,5 +16,22 @@ formDOM.addEventListener('submit', (e)=> {
 });
 
 const fetchPages = async (searchValue) => {
- console.log(searchValue);
+ resultsDOM.innerHTML = `<div class="loading"></div>`;
+  try{
+  const response = await fetch(`${url}${searchValue}`);
+  const data = await response.json();
+  const results = data.query.search;
+  if(results.length < 1) {
+    resultsDOM.innerHTML = `<div class="error">No matching results. Please Try Again</div>`;
+    return;
+  }
+  renderResults(results);
+  console.log(results);
+ } catch (error) {
+  resultsDOM.innerHTML = `<div class="error">there was an error...</div>`;
+ }
+}
+
+const renderResults = (list) => {
+  console.log(list);
 }
